@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { HangmanService } from '../../services/hangman.service';
 
 @Component({
 	selector: 'app-hangman',
@@ -7,57 +8,43 @@ import { FormControl, Validators } from '@angular/forms';
 	styleUrls: ['./hangman.component.scss'],
 })
 export class HangmanComponent implements OnInit {
-	selectedWord = 'PERRO';
-	currentAttempt = 1;
-	numMaxOfAttempts = 9;
-	correctLetters!: string[];
-	wrongLetters: string[] = [];
-
 	inputController = new FormControl('', [
 		Validators.required,
 		Validators.pattern('[A-z]{1}'),
 		Validators.maxLength(1),
 	]);
 
-	constructor() {}
+	constructor(private hangmanService: HangmanService) {}
 
-	ngOnInit(): void {
-		this.correctLetters = Array(this.selectedWord.length).fill('');
-	}
+	ngOnInit(): void {}
 
 	onSubmit(): void {
 		if (this.inputController.invalid) return;
 		const letter = (this.inputController.value as string).toUpperCase();
-
-		const letterAlreadyUsed = this.getLettersUsed().includes(letter);
-		if (letterAlreadyUsed) return;
-
-		const letterIsCorrect = this.lettersOfSelectedWord.includes(letter);
-		if (!letterIsCorrect) {
-			this.wrongLetters.push(letter);
-			this.currentAttempt += 1;
-			return;
-		}
-		this.lettersOfSelectedWord.forEach((wordLetter: string, index: number) => {
-			if (letter === wordLetter) {
-				this.correctLetters[index] = letter;
-			}
-		});
+		this.hangmanService.addLetter(letter);
 	}
 
 	get lettersOfSelectedWord(): string[] {
-		return this.selectedWord.split('');
+		return this.hangmanService.getLettersOfSelectedWord();
 	}
 
-	getLettersUsed(): string[] {
-		return [...this.correctLetters, ...this.wrongLetters];
+	get correctLetters(): string[] {
+		return this.hangmanService.getCorrectLetters();
 	}
 
-	getHangmanImage(): string {
-		return `assets/images/hangman/hangman-attempt-${this.currentAttempt}.svg`;
+	get wrongLetters(): string[] {
+		return this.hangmanService.getWrongLetters();
+	}
+
+	get lettersUsed(): string[] {
+		return this.hangmanService.getLettersUsed();
+	}
+
+	get hangmanImage(): string {
+		return `assets/images/hangman/hangman-attempt-${this.hangmanService.getCurrentAttempt()}.svg`;
 	}
 
 	isGameOver(): boolean {
-		return this.numMaxOfAttempts === this.currentAttempt || this.correctLetters.every(value => value.length);
+		return this.hangmanService.isGameOver();
 	}
 }

@@ -3,7 +3,7 @@
 		<h1 class="page-header__title">El juego del ahorcado</h1>
 	</header>
 	<div class="hangman-board">
-		<img class="hangman-board__icon" [src]="getHangmanImage()" alt="hangman image" />
+		<img class="hangman-board__icon" [src]="hangmanImage" alt="hangman image" />
 		<div class="hangman-used-letters">
 			<span class="hangman-used-letters__letter" *ngFor="let letter of wrongLetters">{{ letter }}</span>
 		</div>
