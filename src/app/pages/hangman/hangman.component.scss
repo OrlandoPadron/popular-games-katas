@@ -65,13 +65,19 @@ $gray: rgba(0, 0, 0, 0.3);
 	}
 }
 
-.hangman-clue {
-	padding: 10px 20px;
-	background-color: #fff375;
-	border-radius: 5px;
+.hangman-hint {
 	position: relative;
+	width: 100%;
+	border-radius: 5px;
+	padding: 15px 20px;
+	background-color: #fff375;
 	&__heading {
-		margin: 10px 0;
+		margin: 5px 0;
+		font-size: 1.2rem;
+	}
+
+	&__text {
+		margin: 5px 0;
 	}
 	&::before {
 		content: '💡';
@@ -103,5 +109,37 @@ $gray: rgba(0, 0, 0, 0.3);
 		font-size: 1.5rem;
 		padding-bottom: 10px;
 		border-bottom: 2px solid $gray;
+	}
+}
+
+.hangman-form {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	gap: 20px;
+	width: 80%;
+	margin-top: 20px;
+
+	&__input {
+		width: 60%;
+		height: 50px;
+		border: 2px solid $gray;
+		border-radius: 5px;
+		padding: 0 20px;
+		font-size: 1.5rem;
+	}
+
+	&__submit-btn {
+		padding: 10px;
+		width: 100px;
+		background-color: black;
+		color: white;
+		border: none;
+		cursor: pointer;
+
+		&:disabled {
+			opacity: 0.2;
+			cursor: not-allowed;
+		}
 	}
 }

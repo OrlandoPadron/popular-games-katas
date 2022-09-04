@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { HangmanService } from '../../services/hangman.service';
 
@@ -8,13 +8,14 @@ import { HangmanService } from '../../services/hangman.service';
 	styleUrls: ['./hangman.component.scss'],
 })
 export class HangmanComponent implements OnInit {
+	@ViewChild('input') input!: ElementRef<HTMLInputElement>;
 	inputController = new FormControl('', [
 		Validators.required,
 		Validators.pattern('[A-z]{1}'),
 		Validators.maxLength(1),
 	]);
 
-	constructor(private hangmanService: HangmanService) {}
+	constructor(private hangmanService: HangmanService, private renderer: Renderer2) {}
 
 	ngOnInit(): void {}
 
@@ -22,6 +23,8 @@ export class HangmanComponent implements OnInit {
 		if (this.inputController.invalid) return;
 		const letter = (this.inputController.value as string).toUpperCase();
 		this.hangmanService.addLetter(letter);
+		this.inputController.setValue('');
+		this.input.nativeElement.focus();
 	}
 
 	get correctLetters(): string[] {
