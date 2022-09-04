@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
+$gray: rgba(0, 0, 0, 0.3);
+
+* {
+	box-sizing: border-box;
+}
+
+.content {
+	height: 100vh;
+	width: 60vw;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 40px 0;
+	gap: 40px;
+}
+
+.page-header {
+	text-align: center;
+	&__title {
+		margin: 0;
+		font-family: 'Permanent Marker', cursive;
+		font-size: 2rem;
+	}
+}
+
+.hangman-board {
+	width: 100%;
+	height: 200px;
+	display: flex;
+	align-items: center;
+	padding: 0 80px;
+	gap: 8rem;
+	border: 5px dashed $gray;
+
+	&__icon {
+		height: 100%;
+	}
+
+	.hangman-used-letters {
+		display: flex;
+		flex-wrap: wrap;
+		font-size: 2rem;
+		gap: 20px;
+		color: gray;
+
+		&__letter {
+			position: relative;
+
+			&::after {
+				content: '';
+				width: 2px;
+				height: 100%;
+				border-radius: 20px;
+				display: block;
+				position: absolute;
+				top: 0;
+				right: 12px;
+				rotate: 45deg;
+				background-color: rgb(226, 0, 0);
+			}
+		}
+	}
+}
+
+.hangman-clue {
+	padding: 10px 20px;
+	background-color: #fff375;
+	border-radius: 5px;
+	position: relative;
+	&__heading {
+		margin: 10px 0;
+	}
+	&::before {
+		content: '💡';
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1rem;
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 40px;
+		height: 40px;
+		border-radius: 0px 5px 0 0;
+		background-color: rgb(150, 150, 150);
+	}
+}
+
+.hangman-game {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	width: 80%;
+	&__word-space {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-grow: 1;
+		height: 50px;
+		font-size: 1.5rem;
+		padding-bottom: 10px;
+		border-bottom: 2px solid $gray;
+	}
+}

@@ -1,0 +1,31 @@
+<main class="content">
+	<header class="page-header">
+		<h1 class="page-header__title">El juego del ahorcado</h1>
+	</header>
+	<div class="hangman-board">
+		<img class="hangman-board__icon" [src]="getHangmanImage()" alt="hangman image" />
+		<div class="hangman-used-letters">
+			<span class="hangman-used-letters__letter" *ngFor="let letter of wrongLetters">{{ letter }}</span>
+		</div>
+	</div>
+	<section class="hangman-clue">
+		<h2 class="hangman-clue__heading">Pista</h2>
+		<p class="hangman-clue__text">
+			Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat accusantium culpa dignissimos
+			praesentium reiciendis laborum nesciunt, deserunt et laboriosam neque enim adipisci.
+		</p>
+	</section>
+	<div class="hangman-game">
+		<div class="hangman-game__word-space" *ngFor="let letter of correctLetters">{{ letter }}</div>
+	</div>
+	<form class="hangman-form" (ngSubmit)="onSubmit()">
+		<input [formControl]="inputController" type="text" />
+		<button
+			class="hangman-form__submit-btn"
+			type="submit"
+			[disabled]="inputController.invalid || isGameOver()"
+		>
+			Enviar
+		</button>
+	</form>
+</main>
