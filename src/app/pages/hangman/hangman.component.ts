@@ -24,10 +24,6 @@ export class HangmanComponent implements OnInit {
 		this.hangmanService.addLetter(letter);
 	}
 
-	get lettersOfSelectedWord(): string[] {
-		return this.hangmanService.getLettersOfSelectedWord();
-	}
-
 	get correctLetters(): string[] {
 		return this.hangmanService.getCorrectLetters();
 	}
@@ -42,6 +38,10 @@ export class HangmanComponent implements OnInit {
 
 	get hangmanImage(): string {
 		return `assets/images/hangman/hangman-attempt-${this.hangmanService.getCurrentAttempt()}.svg`;
+	}
+
+	get hint(): string {
+		return this.hangmanService.getHint();
 	}
 
 	isGameOver(): boolean {

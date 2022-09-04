@@ -8,24 +8,23 @@
 			<span class="hangman-used-letters__letter" *ngFor="let letter of wrongLetters">{{ letter }}</span>
 		</div>
 	</div>
-	<section class="hangman-clue">
-		<h2 class="hangman-clue__heading">Pista</h2>
-		<p class="hangman-clue__text">
-			Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat accusantium culpa dignissimos
-			praesentium reiciendis laborum nesciunt, deserunt et laboriosam neque enim adipisci.
+	<section class="hangman-hint">
+		<h2 class="hangman-hint__heading">Pista</h2>
+		<p class="hangman-hint__text">
+			{{ hint }}
 		</p>
 	</section>
 	<div class="hangman-game">
 		<div class="hangman-game__word-space" *ngFor="let letter of correctLetters">{{ letter }}</div>
 	</div>
 	<form class="hangman-form" (ngSubmit)="onSubmit()">
-		<input [formControl]="inputController" type="text" />
+		<input class="hangman-form__input" [formControl]="inputController" type="text" />
 		<button
 			class="hangman-form__submit-btn"
 			type="submit"
 			[disabled]="inputController.invalid || isGameOver()"
 		>
-			Enviar
+			Probar letra
 		</button>
 	</form>
 </main>

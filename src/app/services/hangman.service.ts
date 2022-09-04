@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import wordsJson from '../../assets/json/hangman/hangman-words.json';
 
 @Injectable({
 	providedIn: 'root',
@@ -6,38 +7,35 @@ import { Injectable } from '@angular/core';
 export class HangmanService {
 	protected readonly MAX_ATTEMPTS = 9;
 	protected currentAttempt = 1;
-	protected selectedWord!: string;
+	protected selectedWord!: { word: string; hint: string };
 	protected correctLetters!: string[];
 	protected wrongLetters: string[] = [];
 
 	constructor() {
-		this.selectedWord = 'PERRO'.toUpperCase();
-		this.correctLetters = Array(this.selectedWord.length).fill('');
+		this.selectedWord = this.selectRandomWord();
+		this.correctLetters = Array(this.selectedWord.word.length).fill('');
 	}
 
 	addLetter(letter: string): void {
 		if (this.isGameOver()) return;
-		if (this.isLetterAlreadyUse(letter)) return;
+		const upperCaseLetter = letter.toUpperCase();
+		if (this.isLetterAlreadyUse(upperCaseLetter)) return;
 
-		const letterIsCorrect = this.getLettersOfSelectedWord().includes(letter);
+		const letterIsCorrect = this.getLettersOfSelectedWord().includes(upperCaseLetter);
 		if (!letterIsCorrect) {
-			this.wrongLetters.push(letter);
+			this.wrongLetters.push(upperCaseLetter);
 			this.currentAttempt += 1;
 			return;
 		}
 		this.getLettersOfSelectedWord().forEach((wordLetter: string, index: number) => {
-			if (letter === wordLetter) {
-				this.correctLetters[index] = letter;
+			if (upperCaseLetter === wordLetter) {
+				this.correctLetters[index] = upperCaseLetter;
 			}
 		});
 	}
 
-	private isLetterAlreadyUse(letter: string): boolean {
-		return this.getLettersUsed().includes(letter.toUpperCase());
-	}
-
 	getLettersOfSelectedWord(): string[] {
-		return this.selectedWord.split('');
+		return this.selectedWord.word.toUpperCase().split('');
 	}
 
 	getLettersUsed(): string[] {
@@ -58,5 +56,18 @@ export class HangmanService {
 
 	getWrongLetters(): string[] {
 		return this.wrongLetters;
+	}
+
+	getHint(): string {
+		return this.selectedWord.hint;
+	}
+
+	private isLetterAlreadyUse(letter: string): boolean {
+		return this.getLettersUsed().includes(letter.toUpperCase());
+	}
+
+	private selectRandomWord(): { word: string; hint: string } {
+		const randomIndex = Math.floor(Math.random() * wordsJson.length);
+		return wordsJson[randomIndex];
 	}
 }
